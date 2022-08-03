@@ -1,0 +1,158 @@
+#include <stdio.h>
+
+int main()
+{
+    int sizeBoard, pieces;
+
+    scanf("%d %d", &sizeBoard, &pieces);
+
+    short chessBoard[sizeBoard][sizeBoard];
+    int piecePosX, piecePosY;
+
+    for(int i = 0; i < sizeBoard; ++i)
+    {
+        for(int j = 0; j < sizeBoard; ++j)
+            chessBoard[i][j] = 0;
+    }
+
+    for(int i = 0; i < pieces; ++i)
+    {
+        scanf("%d %d", &piecePosX, &piecePosY);
+        chessBoard[piecePosX - 1][piecePosY - 1] = 1;
+    }
+
+    /*for(int i = 0; i < sizeBoard; ++i)
+    {
+        for(int j = 0; j < sizeBoard; ++j)
+            printf("%d ", chessBoard[i][j]);
+
+        printf("\n");
+    }
+    */
+    int pawns, pawnX, pawnY;
+
+    scanf("%d", &pawns);
+
+    for(int i = 0; i < pawns; ++i)
+    {
+        int knight = 0, bishop = 0, rook = 0;
+        scanf("%d %d", &pawnX, &pawnY);
+
+        pawnX -= 1;
+        pawnY -= 1;
+
+        ///knight
+        if(pawnX < sizeBoard - 2 && pawnY < sizeBoard - 1){
+            if(chessBoard[pawnX + 2][pawnY + 1] == 1) {
+                knight++;
+            }
+        }
+        if(pawnX < sizeBoard - 2 && pawnY >= 1){
+            if(chessBoard[pawnX + 2][pawnY - 1] == 1){
+                knight++;
+            }
+        }
+        if(pawnX >= 2 && pawnY < sizeBoard - 1){
+            if(chessBoard[pawnX - 2][pawnY + 1] == 1){
+                knight++;
+            }
+        }
+        if(pawnX >= 2 && pawnY >= 1){
+            if(chessBoard[pawnX - 2][pawnY - 1] == 1){
+                knight++;
+        }
+        }
+        if(pawnX < sizeBoard - 1 && pawnY < sizeBoard - 2){
+            if(chessBoard[pawnX + 1][pawnY + 2] == 1){
+                knight++;
+            }
+        }
+        if(pawnX < sizeBoard - 1 && pawnY >= 2){
+            if(chessBoard[pawnX + 1][pawnY - 2] == 1){
+                knight++;
+            }
+        }
+        if(pawnX >= 1 && pawnY < sizeBoard - 2){
+            if(chessBoard[pawnX - 1][pawnY + 2] == 1){
+                knight++;
+            }
+        }
+        if(pawnX >= 1 && pawnY >= 2){
+            if(chessBoard[pawnX - 1][pawnY - 2] == 1) {
+                knight++;
+            }
+        }
+
+        ///bishop
+        for(int x = pawnX + 1, y = pawnY + 1; x < sizeBoard && y < sizeBoard; ++x, ++y){
+            if(chessBoard[x][y] == 1){
+                bishop++;
+                break;
+            }
+        }
+
+        for(int x = pawnX - 1, y = pawnY - 1; x >= 0 && y >= 0; --x, --y){
+            if(chessBoard[x][y] == 1){
+                bishop++;
+                break;
+            }
+        }
+
+        for(int x = pawnX - 1, y = pawnY + 1; x >= 0 && y < sizeBoard; --x, ++y){
+            if(chessBoard[x][y] == 1){
+                bishop++;
+                break;
+            }
+        }
+
+        for(int x = pawnX + 1, y = pawnY - 1; x < sizeBoard && y >= 0; ++x, --y){
+            if(chessBoard[x][y] == 1){
+                bishop++;
+                break;
+            }
+        }
+
+        ///rook
+        for(int x = pawnX + 1; x < sizeBoard; ++x){
+            if(chessBoard[x][pawnY] == 1){
+                rook++;
+                break;
+            }
+        }
+
+        for(int x = pawnX - 1; x >= 0; --x)
+        {
+            if(chessBoard[x][pawnY] == 1){
+                rook++;
+                break;
+            }
+        }
+
+        for(int y = pawnY + 1; y < sizeBoard; ++y)
+        {
+            if(chessBoard[pawnX][y] == 1){
+                rook++;
+                break;
+            }
+        }
+
+        for(int y = pawnY - 1; y >= 0; --y)
+        {
+            if(chessBoard[pawnX][y] == 1){
+                rook++;
+                break;
+            }
+        }
+
+        //printf("Case #%d: %d %d %d\n", i + 1, knight, bishop, rook);
+
+        if(knight >= bishop && knight >= rook)
+            printf("1\n");
+        else if(bishop > knight && bishop >= rook)
+            printf("2\n");
+        else
+            printf("3\n");
+    }
+
+    return 0;
+}
